@@ -1,0 +1,42 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: KameletBinding
+metadata:
+  name: record-processor
+spec:
+  sink:
+    properties:
+      type: singaporean
+    ref:
+      apiVersion: eventing.knative.dev/v1
+      kind: Broker
+      name: record-processed
+  source:
+    ref:
+      apiVersion: messaging.knative.dev/v1
+      kind: Channel
+      name: record-queued
+  steps:
+    - properties:
+        databaseName: postgres
+        password: postgres
+        query: >-
+          INSERT INTO passengers(name,flightno, passportno)
+          VALUES(:#name,:#flightno,:#passportno)
+        serverName: postgresql
+        serverPort: 5432
+        username: postgres
+      ref:
+        apiVersion: camel.apache.org/v1alpha1
+        kind: Kamelet
+        name: postgresql-sink
+    - ref:
+        apiVersion: camel.apache.org/v1alpha1
+        kind: Kamelet
+        name: json-serialize-action
+    - properties:
+        showStreams: True
+        showHeaders: True
+      ref:
+        apiVersion: camel.apache.org/v1alpha1
+        kind: Kamelet
+        name: log-sink
