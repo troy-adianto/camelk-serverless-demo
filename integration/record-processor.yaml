@@ -1,0 +1,68 @@
+- route:
+    id: route-0257
+    from:
+      uri: knative:channel/record-queued
+      id: from-a630
+      steps:
+        - to:
+            uri: kamelet:log-sink
+            id: to-5f90
+            parameters:
+              showHeaders: true
+              showStreams: true
+        - to:
+            uri: kamelet:postgresql-sink
+            id: to-764d
+            parameters:
+              serverName: postgresql
+              serverPort: '5432'
+              databaseName: postgres
+              password: postgres
+              username: postgres
+              query: >-
+                INSERT INTO passengers(name,flightno, passportno)
+                VALUES(:#name,:#flightno,:#passportno)
+        - removeHeader:
+            name: '*'
+            id: removeHeader-1ab7
+        - choice:
+            when:
+              - id: when-930a
+                expression:
+                  simple:
+                    expression: ${body[nationality]} == 'Singaporean'
+                    id: simple-58a2
+                steps:
+                  - setHeader:
+                      name: ce-type
+                      id: setHeader-c7c0
+                      expression:
+                        constant:
+                          expression: singaporean
+                          id: constant-92de
+                  - log:
+                      message: Singaporean - ${body}
+                      id: log-a6b7
+                      loggingLevel: INFO
+            id: choice-0b9c
+            otherwise:
+              id: otherwise-4809
+              steps:
+                - setHeader:
+                    name: ce-type
+                    id: setHeader-149e
+                    expression:
+                      constant:
+                        expression: other
+                        id: constant-ebc1
+                - log:
+                    message: Other - ${body}
+                    id: log-a6b7
+                    loggingLevel: INFO
+        - marshal:
+            id: marshal-f89d
+            json:
+              id: json-3253
+        - to:
+            uri: knative:event?name=record-processed
+            id: to-ffdb

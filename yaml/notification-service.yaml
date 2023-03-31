@@ -1,0 +1,22 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: KameletBinding
+metadata:
+  name: notification-service
+spec:
+  sink:
+    properties:
+      channel: '#ocp-demo'
+      webhookUrl: >-
+        https://hooks.slack.com/services/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
+    ref:
+      apiVersion: camel.apache.org/v1alpha1
+      kind: Kamelet
+      name: slack-sink
+  source:
+    source:
+    properties:
+      type: singaporean
+    ref:
+      apiVersion: eventing.knative.dev/v1
+      kind: Broker
+      name: record-processed
