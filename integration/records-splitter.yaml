@@ -1,0 +1,19 @@
+# camel-k: language=yaml
+
+# Write your routes here, for example:
+- from:
+    uri: "knative:channel/record-received"
+    # uri: "timer:yaml"
+    # parameters:
+    #   period: "20000"
+    steps:
+      # - set-body:
+      #     simple: '[{"name": "meimei","flightno": "F123","passportno": "P123455"}, {"name": "elall","flightno": "F123","passportno": "P123455"}]"'
+      #   #  constant: '{"name": "badog3","flightno": "F123","passportno": "P123455"}'
+      - to: "log:info"
+      - split:
+          jsonpath: '$'
+      - marshal:
+          json:
+            library: Jackson
+      - to: "knative:channel/record-queued"

@@ -1,0 +1,19 @@
+apiVersion: messaging.knative.dev/v1
+kind: Channel
+metadata:
+  name: record-received
+spec: {}
+
+---
+apiVersion: messaging.knative.dev/v1
+kind: Channel
+metadata:
+  name: record-queued
+spec: {}
+---
+
+apiVersion: messaging.knative.dev/v1
+kind: Channel
+metadata:
+  name: record-processed
+spec: {}
