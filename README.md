@@ -4,11 +4,13 @@
 <ul>
   <li> OCP cluster 4.12
   <li> Install the following operator
-  <ul>
-     <li> Red Hat Integration - AMQ Broker
-     <li> OpenShift Serverless
-     <li> Red Hat Integration - Camel K 
-  </ul>
+  <li> <ul>
+         <li> Red Hat Integration - AMQ Broker
+         <li> OpenShift Serverless
+         <li> Red Hat Integration - Camel K 
+       </ul>
+  <li> Create knative eventing in Knative Eventing namespace
+  <li> create knative serving in Knative serving namespace
 </ul>
 
 ## Deployment Instructions
