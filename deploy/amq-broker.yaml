@@ -1,0 +1,22 @@
+apiVersion: broker.amq.io/v1beta1
+kind: ActiveMQArtemis
+metadata:
+  name: ex-aao
+spec:
+  acceptors:
+    - name: amqp
+      port: 5672
+      protocols: amqp
+  adminPassword: password
+  adminUser: admin
+  console:
+    expose: true
+  deploymentPlan:
+    image: placeholder
+    jolokiaAgentEnabled: false
+    journalType: nio
+    managementRBACEnabled: true
+    messageMigration: false
+    persistenceEnabled: true
+    requireLogin: false
+    size: 1

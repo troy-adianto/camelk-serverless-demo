@@ -1,0 +1,16 @@
+apiVersion: camel.apache.org/v1
+kind: Integration
+metadata:
+  name: records-splitter
+spec:
+  flows:
+    - from:
+        steps:
+          - to: 'log:info'
+          - split:
+              jsonpath: $
+          - marshal:
+              json:
+                library: Jackson
+          - to: 'knative:channel/record-queued'
+        uri: 'knative:channel/record-received'

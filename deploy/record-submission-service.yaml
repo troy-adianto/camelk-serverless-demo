@@ -1,0 +1,14 @@
+apiVersion: camel.apache.org/v1
+kind: Integration
+metadata:
+  name: record-submission-service
+spec:
+  sources:
+    - content: |
+        // camel-k: language=groovy
+
+        // Write your routes here, for example:
+        from("rest:post:records")
+          .to("knative:channel/record-received")
+          .transform().constant("Record has been submitted");
+      name: RecordSubmissionService.groovy

@@ -1,0 +1,74 @@
+apiVersion: camel.apache.org/v1
+kind: Integration
+metadata:
+  name: record-processor
+spec:
+  flows:
+    - route:
+        from:
+          id: from-a630
+          steps:
+            - to:
+                id: to-5f90
+                parameters:
+                  showHeaders: true
+                  showStreams: true
+                uri: 'kamelet:log-sink'
+            - to:
+                id: to-764d
+                parameters:
+                  databaseName: postgres
+                  password: postgres
+                  query: >-
+                    INSERT INTO passengers(name,flightno, passportno)
+                    VALUES(:#name,:#flightno,:#passportno)
+                  serverName: postgresql
+                  serverPort: '5432'
+                  username: postgres
+                uri: 'kamelet:postgresql-sink'
+            - removeHeader:
+                id: removeHeader-1ab7
+                name: '*'
+            - choice:
+                id: choice-0b9c
+                otherwise:
+                  id: otherwise-4809
+                  steps:
+                    - setHeader:
+                        expression:
+                          constant:
+                            expression: other
+                            id: constant-ebc1
+                        id: setHeader-149e
+                        name: ce-type
+                    - log:
+                        id: log-a6b7
+                        loggingLevel: INFO
+                        message: 'Other - ${body}'
+                when:
+                  - expression:
+                      simple:
+                        expression: '${body[nationality]} == ''Singaporean'''
+                        id: simple-58a2
+                    id: when-930a
+                    steps:
+                      - setHeader:
+                          expression:
+                            constant:
+                              expression: singaporean
+                              id: constant-92de
+                          id: setHeader-c7c0
+                          name: ce-type
+                      - log:
+                          id: log-a6b7
+                          loggingLevel: INFO
+                          message: 'Singaporean - ${body}'
+            - marshal:
+                id: marshal-f89d
+                json:
+                  id: json-3253
+            - to:
+                id: to-ffdb
+                uri: 'knative:event?name=record-processed'
+          uri: 'knative:channel/record-queued'
+        id: route-0257
