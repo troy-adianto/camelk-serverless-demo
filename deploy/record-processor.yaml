@@ -17,14 +17,14 @@ spec:
             - to:
                 id: to-764d
                 parameters:
-                  databaseName: postgres
-                  password: postgres
+                  databaseName: passengers
+                  password: password
                   query: >-
                     INSERT INTO passengers(name,flightno, passportno)
                     VALUES(:#name,:#flightno,:#passportno)
                   serverName: postgresql
                   serverPort: '5432'
-                  username: postgres
+                  username: admin
                 uri: 'kamelet:postgresql-sink'
             - removeHeader:
                 id: removeHeader-1ab7
