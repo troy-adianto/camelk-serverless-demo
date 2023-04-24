@@ -4,8 +4,9 @@ metadata:
   name: postgresql
 data:
   database-name: cGFzc2VuZ2Vycw==
-  database-password: cGFzc3dvcmQ=
+  database-password: cG9zdGdyZXM=
   database-user: YWRtaW4=
+  database-admin-password: cG9zdGdyZXM=
 type: Opaque
 
 ---
@@ -64,6 +65,11 @@ spec:
                 secretKeyRef:
                   name: postgresql
                   key: database-name
+            - name: POSTGRESQL_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql
+                  key: database-admin-password
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgredb
