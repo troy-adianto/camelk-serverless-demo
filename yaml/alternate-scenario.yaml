@@ -6,8 +6,7 @@ spec:
   sink:
     properties:
       channel: '#ocp-demo'
-      webhookUrl: >-
-        https://hooks.slack.com/services/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
+      webhookUrl: https://hooks.slack.com/services/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
     ref:
       apiVersion: camel.apache.org/v1alpha1
       kind: Kamelet
@@ -37,8 +36,7 @@ spec:
   sink:
     properties:
       channel: '#ocp-demo'
-      webhookUrl: >-
-        https://hooks.slack.com/services/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
+      webhookUrl: https://hooks.slack.com/services/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
     ref:
       apiVersion: camel.apache.org/v1alpha1
       kind: Kamelet

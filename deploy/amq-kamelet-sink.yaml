@@ -13,9 +13,9 @@ spec:
       name: record-received
   source:
     properties:
-      destinationName: myqueue
+      destinationName: passenger
       destinationType: queue
-      remoteURI: 'amqp://ex-aao-amqp-0-svc.amq:5672'
+      remoteURI: 'amqp://ex-aao-amqp-0-svc:5672'
     ref:
       apiVersion: camel.apache.org/v1alpha1
       kind: Kamelet

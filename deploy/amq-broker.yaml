@@ -20,3 +20,14 @@ spec:
     persistenceEnabled: true
     requireLogin: false
     size: 1
+
+---
+
+apiVersion: broker.amq.io/v1beta1
+kind: ActiveMQArtemisAddress
+metadata:
+  name: ex-aaoaddress
+spec:
+  addressName: flightevent
+  queueName: passenger
+  routingType: anycast
