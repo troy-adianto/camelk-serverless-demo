@@ -1,4 +1,4 @@
-# federated service mesh demo
+# CamelK Serverless (Event Mesh) Demo
 
 ## Prerequisites
 <ul>
