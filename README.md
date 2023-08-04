@@ -15,9 +15,13 @@
 
 ## Deployment Instructions
 <ul>
-  <li> Apply all yaml files in /deploy folder
-  <li> Create new table in psql with the following statement
-         create table passengers(name varchar, flightno varchar, passportno varchar);
+  <li> Apply all yaml files in <strong><code>/deploy</code><strong> folder
+  <li> Create new table in psql with the following statement <br>
+    
+```
+create table passengers(name varchar, flightno varchar, passportno varchar);
+```
+
   <li> Update Slack webhook url in notification-service kamelet binding (https://api.slack.com/messaging/webhooks)
 </ul>
 
@@ -25,6 +29,7 @@
 ## Demo Data
 
 ### JSON File for AMQ Message
+```
 [{
   "name": "John",
   "nationality": "Malaysian",
@@ -36,10 +41,11 @@
   "flightno": "F123",
   "passportno": "P32456"
 }]
-
+```
 ### Curl Command
-
+```
 curl "[record submission service route url]/records" \
 -X POST \
 -H "Content-Type: application/json" \
 -d '[{"name":"Bill","nationality":"American","flightno":"F123","passportno":"P123455"},{"name":"Jessica","nationality":"Singaporean","flightno":"F123","passportno":"P32434"}]'
+```
